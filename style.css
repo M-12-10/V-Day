@@ -302,6 +302,7 @@ g[id^=BudGroup] g[id^=BudGroup] g[id^=Bud],
   margin: 0;
   transform: translateX(-50%);
   width: min(92vw, 620px);
+  font-size: clamp(2rem, 4.2vw, 3.6rem);
   text-align: center;
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   font-weight: 800;
@@ -314,7 +315,7 @@ g[id^=BudGroup] g[id^=BudGroup] g[id^=Bud],
     0 0 60px rgba(215, 116, 22, 0.58);
   pointer-events: none;
   z-index: 20;
-  display: none;
+  display: block;
   white-space: nowrap;
   animation: glow-caption-pulse 7.6s ease-in-out infinite;
 }
@@ -331,7 +332,6 @@ g[id^=BudGroup] g[id^=BudGroup] g[id^=Bud],
   display: inline-block;
   opacity: 0;
   visibility: hidden;
-  animation: glow-center-line-pulse 6.9s ease-in-out infinite;
 }
 
 .center-sequence__line {
@@ -352,6 +352,7 @@ g[id^=BudGroup] g[id^=BudGroup] g[id^=Bud],
     0 0 36px rgba(239, 145, 19, 0.35);
   opacity: 0;
   visibility: hidden;
+  animation: glow-center-line-pulse 6.9s ease-in-out infinite;
 }
 
 .center-sequence__line--one {

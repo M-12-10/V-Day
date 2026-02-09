@@ -345,42 +345,42 @@ var tl = gsap.timeline({ paused: true })
 .fromTo(
   '.center-sequence__line--one',
   { autoAlpha: 0, y: 18, scale: 0.96 },
-  { duration: 1.1, autoAlpha: 1, y: 0, scale: 1, ease: 'power3.out' },
+  { duration: 1.35, autoAlpha: 1, y: 0, scale: 1, ease: 'power3.out' },
   'centerSequence'
 )
 .to(
   '.center-sequence__line--one',
-  { duration: 0.8, autoAlpha: 0, y: -16, scale: 1.03, ease: 'power2.inOut' },
-  'centerSequence+=2'
+  { duration: 0.95, autoAlpha: 0, y: -16, scale: 1.03, ease: 'power2.inOut' },
+  'centerSequence+=2.9'
 )
 .fromTo(
   '.center-sequence__line--two',
   { autoAlpha: 0, y: 14, scale: 0.94 },
-  { duration: 0.95, autoAlpha: 1, y: 0, scale: 1, ease: 'back.out(1.6)' },
-  'centerSequence+=2.25'
+  { duration: 1.15, autoAlpha: 1, y: 0, scale: 1, ease: 'back.out(1.6)' },
+  'centerSequence+=3.2'
 )
 .to(
   '.center-sequence__line--two',
-  { duration: 0.75, autoAlpha: 0, y: -20, scale: 1.08, ease: 'power2.in' },
-  'centerSequence+=3.95'
+  { duration: 0.9, autoAlpha: 0, y: -20, scale: 1.08, ease: 'power2.in' },
+  'centerSequence+=5.45'
 )
 .fromTo(
   '.center-sequence__photo-wrap',
   { autoAlpha: 0, scale: 0.72, y: 20, filter: 'blur(10px)' },
-  { duration: 1.5, autoAlpha: 1, scale: 1, y: 0, filter: 'blur(0px)', ease: 'power3.out' },
-  'centerSequence+=4.05'
+  { duration: 2, autoAlpha: 1, scale: 1, y: 0, filter: 'blur(0px)', ease: 'power3.out' },
+  'centerSequence+=6.45'
 )
 .fromTo(
   '.center-sequence__photo',
   { autoAlpha: 0, scale: 1.1 },
-  { duration: 1.2, autoAlpha: 1, scale: 1.02, ease: 'power2.out' },
-  'centerSequence+=4.15'
+  { duration: 1.75, autoAlpha: 1, scale: 1.02, ease: 'power2.out' },
+  'centerSequence+=6.6'
 )
 //mobile captions typewriter (after "YOU ARE!")
 .to(
   '.mobile-caption--top .mobile-caption__char',
   { duration: 0.02, autoAlpha: 1, stagger: 0.12, ease: 'none' },
-  'centerSequence+=4.85'
+  'centerSequence+=6.9'
 )
 .to(
   '.mobile-caption--bottom .mobile-caption__char',
@@ -390,7 +390,7 @@ var tl = gsap.timeline({ paused: true })
 .to(
   '.center-sequence__photo-wrap',
   { duration: 2.6, y: -4, repeat: 1, yoyo: true, ease: 'sine.inOut' },
-  'centerSequence+=5.65'
+  'centerSequence+=8.9'
 );
 
 var intro = document.getElementById('valentine-intro');
