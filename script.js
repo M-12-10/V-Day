@@ -273,6 +273,26 @@ createSunflowerHead('#PinkFlowerGroup9_1_', { outerCount: 24, innerCount: 18, sc
 createSunflowerHead('#PinkFlowerGroup16_1_', { outerCount: 26, innerCount: 20, scale: 0.98, lift: -0.01 });
 createSunflowerHead('#PinkFlowerGroup25_1_', { outerCount: 24, innerCount: 18, scale: 0.98, lift: -0.02 });
 
+function prepareTypewriterText(selector) {
+  var el = document.querySelector(selector);
+  if (!el) {
+    return;
+  }
+
+  var rawText = el.textContent || '';
+  el.textContent = '';
+
+  for (var i = 0; i < rawText.length; i++) {
+    var span = document.createElement('span');
+    span.className = 'mobile-caption__char';
+    span.textContent = rawText.charAt(i) === ' ' ? '\u00A0' : rawText.charAt(i);
+    el.appendChild(span);
+  }
+}
+
+prepareTypewriterText('.mobile-caption--top');
+prepareTypewriterText('.mobile-caption--bottom');
+
 var tl = gsap.timeline({ paused: true })
 .set('#Footer_group_1_', {autoAlpha: 1})
 .fromTo( ['#Stem16_1_','#Stem1_1_'], {drawSVG: "0% 0%" }, {duration:1.5, drawSVG: "0% 100%" }, 'start')
@@ -321,7 +341,7 @@ var tl = gsap.timeline({ paused: true })
 .fromTo(dots, 5, {scale: 0, transformOrigin: '50% 50%' }, {scale: 1, ease: Expo.easeOut}, 'flower3')
 
 //center reveal sequence
-.add('centerSequence', '+=0.8')
+.add('centerSequence', '-=1.7')
 .fromTo(
   '.center-sequence__line--one',
   { autoAlpha: 0, y: 18, scale: 0.96 },
@@ -355,6 +375,17 @@ var tl = gsap.timeline({ paused: true })
   { autoAlpha: 0, scale: 1.1 },
   { duration: 1.2, autoAlpha: 1, scale: 1.02, ease: 'power2.out' },
   'centerSequence+=4.15'
+)
+//mobile captions typewriter (after "YOU ARE!")
+.to(
+  '.mobile-caption--top .mobile-caption__char',
+  { duration: 0.02, autoAlpha: 1, stagger: 0.12, ease: 'none' },
+  'centerSequence+=4.85'
+)
+.to(
+  '.mobile-caption--bottom .mobile-caption__char',
+  { duration: 0.02, autoAlpha: 1, stagger: 0.14, ease: 'none' },
+  '>+0.2'
 )
 .to(
   '.center-sequence__photo-wrap',
