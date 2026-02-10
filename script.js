@@ -27,47 +27,16 @@ var budGroup4 = ['#Bud22a_1_', '#Bud22b_1_', '#Bud22c_1_', '#Bud23_1_'];
 var budGroup5 = ['#Bud10_1_', '#Bud26_1_'];
 
 var dots = $('#Dots_1_');
-var userAgent = navigator.userAgent || '';
 var isTouchDevice = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 var isNarrowScreen = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
 var hasLowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
 var hasLowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 6;
-var redmiNote14ModelCode = /\b24117rn76[gelo]\b/i.test(userAgent);
-var isRedmiNote14 = /redmi note 14/i.test(userAgent) || redmiNote14ModelCode;
-var isRedmiNote14_4G = redmiNote14ModelCode || (isRedmiNote14 && !/\b5g\b/i.test(userAgent));
-var profileParam = new URLSearchParams(window.location.search).get('profile');
-
-function setPerfProfile(profile) {
-  var url = new URL(window.location.href);
-  if (profile) {
-    url.searchParams.set('profile', profile);
-  } else {
-    url.searchParams.delete('profile');
-  }
-  window.location.assign(url.toString());
-}
-
-// Console helpers:
-// emulateNote14Perf()        -> enable Redmi Note 14 performance profile
-// emulateNote14Perf(false)   -> disable forced profile (back to auto detection)
-window.emulateNote14Perf = function (enabled) {
-  if (enabled === false) {
-    setPerfProfile('');
-    return;
-  }
-  setPerfProfile('rn14');
-};
-
-var PERF_RN14 = profileParam === 'rn14' || isRedmiNote14_4G;
-var PERF_LITE = PERF_RN14 || (isTouchDevice && (isNarrowScreen || hasLowMemory || hasLowCpu));
+var PERF_LITE = isTouchDevice && (isNarrowScreen || hasLowMemory || hasLowCpu);
 
 if (PERF_LITE) {
   document.documentElement.classList.add('perf-lite');
-  if (PERF_RN14) {
-    document.documentElement.classList.add('perf-rn14');
-  }
   if (window.gsap && gsap.ticker) {
-    gsap.ticker.fps(PERF_RN14 ? 42 : 45);
+    gsap.ticker.fps(45);
   }
 }
 
@@ -227,13 +196,13 @@ function createSunflowerHead(groupSelector, config) {
   var cx = bbox.x + bbox.width / 2;
   var cy = bbox.y + bbox.height / 2 - base * lift;
   var core = base * 0.19 * scale;
-  var detailScale = PERF_RN14 ? 0.74 : (PERF_LITE ? 0.82 : 1);
+  var detailScale = PERF_LITE ? 0.82 : 1;
   var outerCount = config && config.outerCount ? config.outerCount : 24;
   var innerCount = config && config.innerCount ? config.innerCount : 18;
-  var seedCount = PERF_RN14 ? 72 : (PERF_LITE ? 96 : 150);
+  var seedCount = PERF_LITE ? 96 : 150;
 
-  outerCount = Math.max(PERF_RN14 ? 14 : 16, Math.round(outerCount * detailScale));
-  innerCount = Math.max(PERF_RN14 ? 10 : 12, Math.round(innerCount * detailScale));
+  outerCount = Math.max(16, Math.round(outerCount * detailScale));
+  innerCount = Math.max(12, Math.round(innerCount * detailScale));
 
   // Keep generated petals fully inside the SVG viewport so they don't get clipped.
   var svg = document.getElementById('flower-frame');
@@ -342,15 +311,12 @@ prepareTypewriterText('.mobile-caption--top');
 prepareTypewriterText('.mobile-caption--bottom');
 
 var photoWrapRevealFrom = PERF_LITE
-  ? (PERF_RN14 ? { autoAlpha: 0, scale: 0.82, y: 18 } : { autoAlpha: 0, scale: 0.78, y: 20 })
+  ? { autoAlpha: 0, scale: 0.78, y: 20 }
   : { autoAlpha: 0, scale: 0.72, y: 20, filter: 'blur(10px)' };
 
 var photoWrapRevealTo = PERF_LITE
-  ? (PERF_RN14 ? { duration: 1.65, autoAlpha: 1, scale: 1, y: 0, ease: 'power3.out' } : { duration: 1.85, autoAlpha: 1, scale: 1, y: 0, ease: 'power3.out' })
+  ? { duration: 1.85, autoAlpha: 1, scale: 1, y: 0, ease: 'power3.out' }
   : { duration: 2, autoAlpha: 1, scale: 1, y: 0, filter: 'blur(0px)', ease: 'power3.out' };
-
-var dotsFadeDuration = PERF_RN14 ? 2.8 : 6;
-var dotsScaleDuration = PERF_RN14 ? 2.6 : 5;
 
 var tl = gsap.timeline({ paused: true })
 .set('#Footer_group_1_', {autoAlpha: 1})
@@ -387,28 +353,17 @@ var tl = gsap.timeline({ paused: true })
 .fromTo(budGroup2, {autoAlpha: 1, scale: 0, transformOrigin:gsap.utils.wrap(['-120% -10%', '45% 100%']) }, {duration:2, scale:1, stagger:2.75}, 'flower1-=0.75')
 .fromTo(budGroup3, {autoAlpha: 1, scale: 0, transformOrigin:gsap.utils.wrap(['10% 110%', '0% 100%', '0% 100%', '80% 100%']) }, {duration:2, scale:1, stagger:0.5},  'flower2')
 .fromTo(budGroup4, {autoAlpha: 1, scale: 0, transformOrigin:gsap.utils.wrap(['90% 110%', '100% 100%', '100% 100%', '20% 100%']) }, {duration:2, scale:1, stagger:0.5}, 'flower2')
-.fromTo(budGroup5, {autoAlpha: 1, scale: 0, transformOrigin:gsap.utils.wrap(['-50% 120%', '150% 120%']) }, {duration:2, scale:1},  'flower2-=0.5');
+.fromTo(budGroup5, {autoAlpha: 1, scale: 0, transformOrigin:gsap.utils.wrap(['-50% 120%', '150% 120%']) }, {duration:2, scale:1},  'flower2-=0.5')
 
-if (PERF_RN14) {
-  tl
-  // Strokes are expensive with drawSVG on this GPU; use a soft staggered reveal.
-  .fromTo(strokesLeftBottom, { autoAlpha: 0 }, { duration: 0.8, autoAlpha: 1, stagger: 0.08, ease: 'power1.out' }, 1.05)
-  .fromTo(strokesRightBottom, { autoAlpha: 0 }, { duration: 0.8, autoAlpha: 1, stagger: 0.08, ease: 'power1.out' }, 1.05)
-  .fromTo(strokesLeftTop, { autoAlpha: 0 }, { duration: 0.8, autoAlpha: 1, stagger: 0.08, ease: 'power1.out' }, 'flower1+=0.55')
-  .fromTo(strokesRightTop, { autoAlpha: 0 }, { duration: 0.8, autoAlpha: 1, stagger: 0.08, ease: 'power1.out' }, 'flower1+=0.55');
-} else {
-  tl
-  //strokes
-  .fromTo(strokesLeftBottom, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 1)
-  .fromTo(strokesRightBottom, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 1)
-  .fromTo(strokesLeftTop, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 'flower1+=0.5')
-  .fromTo(strokesRightTop, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 'flower1+=0.5');
-}
+//strokes
+.fromTo(strokesLeftBottom, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 1)
+.fromTo(strokesRightBottom, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 1)
+.fromTo(strokesLeftTop, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 'flower1+=0.5')
+.fromTo(strokesRightTop, stemVarsFrom, { drawSVG: "0% 100%", duration:2, stagger:1 }, 'flower1+=0.5')
 
-tl
 //dots
-.fromTo(dots, dotsFadeDuration, {autoAlpha: 0}, {autoAlpha: 1, ease: Expo.easeOut}, 'flower3+=1')
-.fromTo(dots, dotsScaleDuration, {scale: 0, transformOrigin: '50% 50%' }, {scale: 1, ease: Expo.easeOut}, 'flower3')
+.fromTo(dots, 6, {autoAlpha: 0}, {autoAlpha: 1, ease: Expo.easeOut}, 'flower3+=1')
+.fromTo(dots, 5, {scale: 0, transformOrigin: '50% 50%' }, {scale: 1, ease: Expo.easeOut}, 'flower3')
 
 //center reveal sequence
 .add('centerSequence', '-=1.7')
@@ -459,7 +414,7 @@ tl
 )
 .to(
   '.center-sequence__photo-wrap',
-  { duration: PERF_RN14 ? 2.2 : 2.6, y: -4, repeat: 1, yoyo: true, ease: 'sine.inOut' },
+  { duration: 2.6, y: -4, repeat: 1, yoyo: true, ease: 'sine.inOut' },
   'centerSequence+=8.9'
 );
 
@@ -495,7 +450,7 @@ function showFlowerScene() {
 
   window.setTimeout(function () {
     tl.restart(true);
-  }, PERF_RN14 ? 260 : (PERF_LITE ? 220 : 0));
+  }, PERF_LITE ? 220 : 0);
 }
 
 if (forYouButton) {
